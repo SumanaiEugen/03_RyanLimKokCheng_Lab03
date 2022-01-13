@@ -1,22 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class BasketMovementScript : MonoBehaviour
+public class BasketMovement_Level2 : MonoBehaviour
 {
     public float speed;
 
     [SerializeField] public Text score;
+    [SerializeField] public Text CountdownTimer;
     [SerializeField] float Points;
+
+    float currentTime = 0f;
+    float startingTime = 60f;
+    void Start()
+    {
+        currentTime = startingTime;
+    }
 
     // Update is called once per frame
     void Update()
     {
-      float horizontalInput = Input.GetAxis("Horizontal");
-    
-      transform.position = transform.position + new Vector3(horizontalInput * speed * Time.deltaTime, 0, 0);
+        currentTime -= 1 * Time.deltaTime;
+        CountdownTimer.text = currentTime.ToString("0");
+
+        if (currentTime <= 0)
+        {
+            SceneManager.LoadScene("GameWinScene");
+        }
+        float horizontalInput = Input.GetAxis("Horizontal");
+
+        transform.position = transform.position + new Vector3(horizontalInput * speed * Time.deltaTime, 0, 0);
 
     }
 
@@ -26,10 +41,6 @@ public class BasketMovementScript : MonoBehaviour
         {
             Destroy(collision.gameObject);
             Points += 10;
-            if(Points <= 100)
-            {
-                SceneManager.LoadScene("GamePlay_Level 2");
-            }
             score.text = ("Score : " + Points);
         }
         else if (collision.gameObject.CompareTag("Unhealthy"))
@@ -38,7 +49,4 @@ public class BasketMovementScript : MonoBehaviour
             SceneManager.LoadScene("GameLoseScene");
         }
     }
-
-
-
 }
