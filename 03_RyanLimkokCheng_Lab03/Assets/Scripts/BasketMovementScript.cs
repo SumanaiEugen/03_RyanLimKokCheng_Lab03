@@ -10,11 +10,6 @@ public class BasketMovementScript : MonoBehaviour
 
     [SerializeField] public Text score;
     [SerializeField] float Points;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -33,6 +28,10 @@ public class BasketMovementScript : MonoBehaviour
             Destroy(collision.gameObject);
             Points += 10;
             score.text = ("Score : " + Points);
+            if(Points <= 100)
+            {
+                SceneManager.LoadScene("GamePlay_Level 2");
+            }
         }
         else if (collision.gameObject.CompareTag("Unhealthy"))
         {
