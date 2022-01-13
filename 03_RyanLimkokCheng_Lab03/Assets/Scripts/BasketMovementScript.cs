@@ -11,9 +11,17 @@ public class BasketMovementScript : MonoBehaviour
     [SerializeField] public Text score;
     [SerializeField] float Points;
 
+    public AudioSource audiosource;
+    public AudioClip[] audiocliparray;
+
+    void Start()
+    {
+        audiosource = GetComponent<AudioSource>();
+    }
     // Update is called once per frame
     void Update()
     {
+
       float horizontalInput = Input.GetAxis("Horizontal");
     
       transform.position = transform.position + new Vector3(horizontalInput * speed * Time.deltaTime, 0, 0);
@@ -25,6 +33,7 @@ public class BasketMovementScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Healthy"))
         {
             Destroy(collision.gameObject);
+            audiosource.PlayOneShot(audiocliparray[0]);
             Points += 10;
             if(Points <= 100)
             {
@@ -35,6 +44,7 @@ public class BasketMovementScript : MonoBehaviour
         else if (collision.gameObject.CompareTag("Unhealthy"))
         {
             Destroy(collision.gameObject);
+            audiosource.PlayOneShot(audiocliparray[1]);
             SceneManager.LoadScene("GameLoseScene");
         }
     }

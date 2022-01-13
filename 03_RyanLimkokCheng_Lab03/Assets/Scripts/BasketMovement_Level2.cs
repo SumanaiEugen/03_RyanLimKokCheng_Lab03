@@ -14,8 +14,13 @@ public class BasketMovement_Level2 : MonoBehaviour
 
     float currentTime = 0f;
     float startingTime = 60f;
+
+    public AudioSource audiosource;
+    public AudioClip[] audiocliparray;
+
     void Start()
     {
+        audiosource = GetComponent<AudioSource>();
         currentTime = startingTime;
     }
 
@@ -42,11 +47,13 @@ public class BasketMovement_Level2 : MonoBehaviour
             Destroy(collision.gameObject);
             Points += 10;
             score.text = ("Score : " + Points);
+            audiosource.PlayOneShot(audiocliparray[0]);
         }
         else if (collision.gameObject.CompareTag("Unhealthy"))
         {
             Destroy(collision.gameObject);
             SceneManager.LoadScene("GameLoseScene");
+            audiosource.PlayOneShot(audiocliparray[1]);
         }
     }
 }
